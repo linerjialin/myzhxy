@@ -1,0 +1,52 @@
+server:
+  port: 9002
+spring:
+  #SpringBoot2.6.0与Swagger冲突问题【原因是springboot2.6.0中在SpringMVC 默认路径匹配策略 从 antPathMatcher 更改为 pathMatch 再变回去就好了】
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/zhxy_db?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 123456
+    #mabatis-plus 内置的连接池
+    hikari:
+      connection-test-query: SELECT 1
+      connection-timeout: 60000
+      idle-timeout: 500000
+      max-lifetime: 540000
+      maximum-pool-size: 12
+      minimum-idle: 10
+      pool-name: GuliHikariPool
+  thymeleaf:
+    #模板的模式
+    mode: HTML5
+    #编码
+    encoding: UTF-8
+    #开发配置 false 避免修改模板还要重启服务器
+    cache: false
+    #配置模板路径
+    prefix: classpath:/static/
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    #设置文件上传上限
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+mybatis-plus:
+  configuration:
+    #添加日志支持
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #存放mapper映射文件扫描的位置
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+
+#设置日志模板格式
+logging:
+  pattern:
+#    console: "%d - %m %n"
+
